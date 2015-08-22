@@ -4,17 +4,38 @@
 
 (enable-console-print!)
 
-(println "Edits to this text should show up in your developer console.")
+(defonce app-state (atom {:radius 1, :chord-length 0.5}))
 
-;; define your app data so that it doesn't get over-written on reload
+(defn numeric? [text]
+  ;; https://github.com/jquery/jquery/blob/2.1.4/src/core.js#L217
+  (>= (+ (- text
+            (js/parseFloat text))
+         1)
+      0))
 
-(defonce app-state (atom {:text "Hello world!"}))
+(defn handle-change [e owner state key]
+  (let [old (key state)
+        new (.. e -target -value)]
+    (if (numeric? new)
+      (om/set-state! owner key new)
+      (om/set-state! owner key old))))
+
+(defn input-view [data owner]
+  (reify
+    om/IRenderState
+    (render-state [_ state]
+      (dom/div nil
+               (dom/p nil
+                      (dom/label #js {:htmlFor "radius"} "Radius")
+                      (dom/input #js {:type "text" :ref "radius" :id "radius" :value (:radius state)
+                                      :onChange #(handle-change % owner state :radius)}))
+               (dom/p nil
+                      (dom/label #js {:htmlFor "chord-length"} "Chord Length")
+                      (dom/input #js {:type "text" :ref "chord-length" :id "chord-length" :value (:chord-length state)
+                                      :onChange #(handle-change % owner state :chord-length)}))))))
 
 (om/root
-  (fn [data owner]
-    (reify om/IRender
-      (render [_]
-        (dom/h1 nil (:text data)))))
+  input-view
   app-state
   {:target (. js/document (getElementById "app"))})
 
