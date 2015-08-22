@@ -6,7 +6,7 @@ goog.require('om.dom');
 cljs.core.enable_console_print_BANG_.call(null);
 if(typeof chords.core.app_state !== 'undefined'){
 } else {
-chords.core.app_state = cljs.core.atom.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"radius","radius",-2073122258),(1),new cljs.core.Keyword(null,"chord-length","chord-length",1224300115),0.5,new cljs.core.Keyword(null,"offset","offset",296498311),(0)], null));
+chords.core.app_state = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
 }
 chords.core.diam_to_perim = (function chords$core$diam_to_perim(radius,offset){
 return Math.sqrt((Math.pow(radius,(2)) - Math.pow(offset,(2))));
@@ -24,89 +24,109 @@ return (chords.core.diam_to_perim.call(null,radius,offset) - chords.core.diam_to
 chords.core.numeric_QMARK_ = (function chords$core$numeric_QMARK_(text){
 return (((text - parseFloat(text)) + (1)) >= (0));
 });
-chords.core.handle_change = (function chords$core$handle_change(e,data,key){
-var old = key.call(null,data);
+chords.core.handle_change = (function chords$core$handle_change(e,state,owner,key){
+var old = key.call(null,state);
 var new$ = e.target.value;
 if(cljs.core.truth_(chords.core.numeric_QMARK_.call(null,new$))){
-return om.core.transact_BANG_.call(null,data,key,((function (old,new$){
-return (function (){
-return cljs.core.identity.call(null,new$);
-});})(old,new$))
-);
+return om.core.set_state_BANG_.call(null,owner,key,new$);
 } else {
-return null;
+return om.core.set_state_BANG_.call(null,owner,key,old);
 }
 });
-chords.core.input_view = (function chords$core$input_view(data,owner){
-if(typeof chords.core.t20087 !== 'undefined'){
+chords.core.input = (function chords$core$input(){
+var G__31234 = arguments.length;
+switch (G__31234) {
+case 4:
+return chords.core.input.cljs$core$IFn$_invoke$arity$4((arguments[(0)]),(arguments[(1)]),(arguments[(2)]),(arguments[(3)]));
+
+break;
+case 5:
+return chords.core.input.cljs$core$IFn$_invoke$arity$5((arguments[(0)]),(arguments[(1)]),(arguments[(2)]),(arguments[(3)]),(arguments[(4)]));
+
+break;
+default:
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(arguments.length)].join('')));
+
+}
+});
+
+chords.core.input.cljs$core$IFn$_invoke$arity$4 = (function (state,owner,key,label){
+return chords.core.input.call(null,state,owner,key,label,cljs.core.PersistentArrayMap.EMPTY);
+});
+
+chords.core.input.cljs$core$IFn$_invoke$arity$5 = (function (state,owner,key,label,params){
+return React.DOM.p(null,React.DOM.label({"htmlFor": key},label),om.dom.input.call(null,cljs.core.clj__GT_js.call(null,cljs.core.merge.call(null,new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"type","type",1174270348),"text",new cljs.core.Keyword(null,"ref","ref",1289896967),key,new cljs.core.Keyword(null,"id","id",-1388402092),key,new cljs.core.Keyword(null,"value","value",305978217),key.call(null,state),new cljs.core.Keyword(null,"onChange","onChange",-312891301),(function (p1__31232_SHARP_){
+return chords.core.handle_change.call(null,p1__31232_SHARP_,state,owner,key);
+})], null),params))));
+});
+
+chords.core.input.cljs$lang$maxFixedArity = 5;
+chords.core.app_view = (function chords$core$app_view(data,owner){
+if(typeof chords.core.t31239 !== 'undefined'){
 } else {
 
 /**
 * @constructor
 */
-chords.core.t20087 = (function (input_view,data,owner,meta20088){
-this.input_view = input_view;
+chords.core.t31239 = (function (app_view,data,owner,meta31240){
+this.app_view = app_view;
 this.data = data;
 this.owner = owner;
-this.meta20088 = meta20088;
+this.meta31240 = meta31240;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 })
-chords.core.t20087.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_20089,meta20088__$1){
+chords.core.t31239.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_31241,meta31240__$1){
 var self__ = this;
-var _20089__$1 = this;
-return (new chords.core.t20087(self__.input_view,self__.data,self__.owner,meta20088__$1));
+var _31241__$1 = this;
+return (new chords.core.t31239(self__.app_view,self__.data,self__.owner,meta31240__$1));
 });
 
-chords.core.t20087.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_20089){
+chords.core.t31239.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_31241){
 var self__ = this;
-var _20089__$1 = this;
-return self__.meta20088;
+var _31241__$1 = this;
+return self__.meta31240;
 });
 
-chords.core.t20087.prototype.om$core$IRender$ = true;
+chords.core.t31239.prototype.om$core$IInitState$ = true;
 
-chords.core.t20087.prototype.om$core$IRender$render$arity$1 = (function (_){
+chords.core.t31239.prototype.om$core$IInitState$init_state$arity$1 = (function (_){
 var self__ = this;
 var ___$1 = this;
-return React.DOM.div(null,React.DOM.p(null,React.DOM.label({"htmlFor": "radius"},"Radius"),om.dom.input.call(null,{"type": "text", "ref": "radius", "id": "radius", "value": new cljs.core.Keyword(null,"radius","radius",-2073122258).cljs$core$IFn$_invoke$arity$1(self__.data), "onChange": ((function (___$1){
-return (function (p1__20081_SHARP_){
-return chords.core.handle_change.call(null,p1__20081_SHARP_,self__.data,new cljs.core.Keyword(null,"radius","radius",-2073122258));
-});})(___$1))
-})),React.DOM.p(null,React.DOM.label({"htmlFor": "chord-length"},"Chord Length"),om.dom.input.call(null,{"type": "text", "ref": "chord-length", "id": "chord-length", "value": new cljs.core.Keyword(null,"chord-length","chord-length",1224300115).cljs$core$IFn$_invoke$arity$1(self__.data), "onChange": ((function (___$1){
-return (function (p1__20082_SHARP_){
-return chords.core.handle_change.call(null,p1__20082_SHARP_,self__.data,new cljs.core.Keyword(null,"chord-length","chord-length",1224300115));
-});})(___$1))
-})),React.DOM.p(null,React.DOM.label({"htmlFor": "offset"},"Offset from Center"),om.dom.input.call(null,{"type": "text", "ref": "offset", "id": "offset", "value": new cljs.core.Keyword(null,"offset","offset",296498311).cljs$core$IFn$_invoke$arity$1(self__.data), "onChange": ((function (___$1){
-return (function (p1__20083_SHARP_){
-return chords.core.handle_change.call(null,p1__20083_SHARP_,self__.data,new cljs.core.Keyword(null,"offset","offset",296498311));
-});})(___$1))
-})),React.DOM.p(null,React.DOM.label({"htmlFor": "chord-to-perim"},"Chord to Perimeter at offset"),om.dom.input.call(null,{"type": "text", "ref": "chord-to-perim", "id": "chord-to-perim", "value": chords.core.chord_to_perim.call(null,self__.data), "disabled": true})));
+return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"radius","radius",-2073122258),(1),new cljs.core.Keyword(null,"chord-length","chord-length",1224300115),0.5,new cljs.core.Keyword(null,"offset","offset",296498311),(0)], null);
 });
 
-chords.core.t20087.getBasis = (function (){
-return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"input-view","input-view",-674591541,null),new cljs.core.Symbol(null,"data","data",1407862150,null),new cljs.core.Symbol(null,"owner","owner",1247919588,null),new cljs.core.Symbol(null,"meta20088","meta20088",497256665,null)], null);
+chords.core.t31239.prototype.om$core$IRenderState$ = true;
+
+chords.core.t31239.prototype.om$core$IRenderState$render_state$arity$2 = (function (_,state){
+var self__ = this;
+var ___$1 = this;
+return React.DOM.div(null,chords.core.input.call(null,state,self__.owner,new cljs.core.Keyword(null,"radius","radius",-2073122258),"Radius"),chords.core.input.call(null,state,self__.owner,new cljs.core.Keyword(null,"chord-length","chord-length",1224300115),"Chord Length"),chords.core.input.call(null,state,self__.owner,new cljs.core.Keyword(null,"offset","offset",296498311),"Offset from Center"),chords.core.input.call(null,state,self__.owner,new cljs.core.Keyword(null,"chord-to-perim","chord-to-perim",1875806958),"Chord to Perimeter at Offset",new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"disabled","disabled",-1529784218),true,new cljs.core.Keyword(null,"value","value",305978217),chords.core.chord_to_perim.call(null,state)], null)));
 });
 
-chords.core.t20087.cljs$lang$type = true;
-
-chords.core.t20087.cljs$lang$ctorStr = "chords.core/t20087";
-
-chords.core.t20087.cljs$lang$ctorPrWriter = (function (this__16648__auto__,writer__16649__auto__,opt__16650__auto__){
-return cljs.core._write.call(null,writer__16649__auto__,"chords.core/t20087");
+chords.core.t31239.getBasis = (function (){
+return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"app-view","app-view",-1295186174,null),new cljs.core.Symbol(null,"data","data",1407862150,null),new cljs.core.Symbol(null,"owner","owner",1247919588,null),new cljs.core.Symbol(null,"meta31240","meta31240",263624221,null)], null);
 });
 
-chords.core.__GT_t20087 = (function chords$core$input_view_$___GT_t20087(input_view__$1,data__$1,owner__$1,meta20088){
-return (new chords.core.t20087(input_view__$1,data__$1,owner__$1,meta20088));
+chords.core.t31239.cljs$lang$type = true;
+
+chords.core.t31239.cljs$lang$ctorStr = "chords.core/t31239";
+
+chords.core.t31239.cljs$lang$ctorPrWriter = (function (this__16648__auto__,writer__16649__auto__,opt__16650__auto__){
+return cljs.core._write.call(null,writer__16649__auto__,"chords.core/t31239");
+});
+
+chords.core.__GT_t31239 = (function chords$core$app_view_$___GT_t31239(app_view__$1,data__$1,owner__$1,meta31240){
+return (new chords.core.t31239(app_view__$1,data__$1,owner__$1,meta31240));
 });
 
 }
 
-return (new chords.core.t20087(chords$core$input_view,data,owner,cljs.core.PersistentArrayMap.EMPTY));
+return (new chords.core.t31239(chords$core$app_view,data,owner,cljs.core.PersistentArrayMap.EMPTY));
 });
-om.core.root.call(null,chords.core.input_view,chords.core.app_state,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"target","target",253001721),document.getElementById("app")], null));
+om.core.root.call(null,chords.core.app_view,chords.core.app_state,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"target","target",253001721),document.getElementById("app")], null));
 chords.core.on_js_reload = (function chords$core$on_js_reload(){
 return null;
 });
 
-//# sourceMappingURL=core.js.map?rel=1440277341976
+//# sourceMappingURL=core.js.map?rel=1440284482264

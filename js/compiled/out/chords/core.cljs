@@ -4,7 +4,7 @@
 
 (enable-console-print!)
 
-(defonce app-state (atom {:radius 1, :chord-length 0.5, :offset 0}))
+(defonce app-state (atom {}))
 
 (defn diam-to-perim [radius offset]
   (.sqrt js/Math (- (.pow js/Math radius 2)
@@ -29,36 +29,40 @@
          1)
       0))
 
-(defn handle-change [e data key]
-  (let [old (key data)
+(defn handle-change [e state owner key]
+  (let [old (key state)
         new (.. e -target -value)]
     (if (numeric? new)
-      (om/transact! data key #(identity new)))))
+      (om/set-state! owner key new)
+      (om/set-state! owner key old))))
 
-(defn input-view [data owner]
+(defn input
+  ([state owner key label] (input state owner key label {}))
+  ([state owner key label params]
+   (dom/p nil
+          (dom/label #js {:htmlFor key} label)
+          (dom/input (clj->js (merge {:type "text" :ref key :id key :value (key state)
+                                      :onChange #(handle-change % state owner key)}
+                                     params))))))
+
+(defn app-view [data owner]
   (reify
-    om/IRender
-    (render [_]
+    om/IInitState
+    (init-state [_]
+      {:radius 1
+       :chord-length 0.5
+       :offset 0})
+    om/IRenderState
+    (render-state [_ state]
       (dom/div nil
-               (dom/p nil
-                      (dom/label #js {:htmlFor "radius"} "Radius")
-                      (dom/input #js {:type "text" :ref "radius" :id "radius" :value (:radius data)
-                                      :onChange #(handle-change % data :radius)}))
-               (dom/p nil
-                      (dom/label #js {:htmlFor "chord-length"} "Chord Length")
-                      (dom/input #js {:type "text" :ref "chord-length" :id "chord-length" :value (:chord-length data)
-                                      :onChange #(handle-change % data :chord-length)}))
-               (dom/p nil
-                      (dom/label #js {:htmlFor "offset"} "Offset from Center")
-                      (dom/input #js {:type "text" :ref "offset" :id "offset" :value (:offset data)
-                                      :onChange #(handle-change % data :offset)}))
-               (dom/p nil
-                      (dom/label #js {:htmlFor "chord-to-perim"} "Chord to Perimeter at offset")
-                      (dom/input #js {:type "text" :ref "chord-to-perim" :id "chord-to-perim"
-                                      :value (chord-to-perim data) :disabled true}))))))
+               (input state owner :radius "Radius")
+               (input state owner :chord-length "Chord Length")
+               (input state owner :offset "Offset from Center")
+               (input state owner :chord-to-perim "Chord to Perimeter at Offset"
+                      {:disabled true, :value (chord-to-perim state)})))))
 
 (om/root
-  input-view
+  app-view
   app-state
   {:target (. js/document (getElementById "app"))})
 
