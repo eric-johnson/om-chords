@@ -36,11 +36,14 @@
       (om/set-state! owner key new)
       (om/set-state! owner key old))))
 
-(defn input [state owner key label]
-  (dom/p nil
-         (dom/label #js {:htmlFor key} label)
-         (dom/input #js {:type "text" :ref key :id key :value (key state)
-                         :onChange #(handle-change % state owner key)})))
+(defn input
+  ([state owner key label] (input state owner key label {}))
+  ([state owner key label params]
+   (dom/p nil
+          (dom/label #js {:htmlFor key} label)
+          (dom/input (clj->js (merge {:type "text" :ref key :id key :value (key state)
+                                      :onChange #(handle-change % state owner key)}
+                                     params))))))
 
 (defn app-view [data owner]
   (reify
@@ -55,10 +58,8 @@
                (input state owner :radius "Radius")
                (input state owner :chord-length "Chord Length")
                (input state owner :offset "Offset from Center")
-               (dom/p nil
-                      (dom/label #js {:htmlFor "chord-to-perim"} "Chord to Perimeter at offset")
-                      (dom/input #js {:type "text" :ref "chord-to-perim" :id "chord-to-perim"
-                                      :value (chord-to-perim state) :disabled true}))))))
+               (input state owner :chord-to-perim "Chord to Perimeter at Offset"
+                      {:disabled true, :value (chord-to-perim state)})))))
 
 (om/root
   app-view
